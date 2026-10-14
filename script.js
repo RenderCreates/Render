@@ -167,17 +167,8 @@ videoToggle.addEventListener('click',async()=>{
 if('IntersectionObserver' in window){const videoObserver=new IntersectionObserver(entries=>{if(!entries[0].isIntersecting){const bounds=video.getBoundingClientRect();if(bounds.bottom<=0||bounds.top>=window.innerHeight)pauseVideo();}});videoObserver.observe(video);}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseVideo();});
 
-// No backend or automatic message sending: the visitor reviews the brief in WhatsApp.
+// Callback and WhatsApp actions are handled by contact.js.
 const form=document.querySelector('#project-form');
-form.addEventListener('submit',event=>{
-  event.preventDefault();if(!form.reportValidity())return;
-  const data=new FormData(form);const name=String(data.get('name')||'').trim();const brief=String(data.get('brief')||'').trim();
-  if(!name||brief.length<10){document.querySelector('#form-status').textContent=t('Please add your name and a little more detail about your project.');return;}
-  const company=String(data.get('company')||'').trim();const services=data.getAll('service');
-  const message=isGeorgian()?[`გამარჯობა, Render Studio! მე ვარ ${name}.`,company?`ბრენდი / კომპანია: ${company}`:'',services.length?`მაინტერესებს: ${services.map(t).join(', ')}`:'',`პროექტის აღწერა: ${brief}`].filter(Boolean).join('\n\n'):[`Hi Render Studio! I'm ${name}.`,company?`Brand / company: ${company}`:'',services.length?`Interested in: ${services.join(', ')}`:'',`Project brief: ${brief}`].filter(Boolean).join('\n\n');
-  const url=whatsappURL(message);window.open(url,'_blank','noopener,noreferrer');
-  const status=document.querySelector('#form-status');const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=t('Open your brief in WhatsApp');status.replaceChildren(document.createTextNode(t('Your brief is ready to review and send.')+' '),link);
-});
 function populateDialog(concept){
   const image=document.querySelector('#dialog-image');image.src=concept.image;image.alt=t(concept.alt);
   document.querySelector('#dialog-title').textContent=t(concept.title);
@@ -195,10 +186,6 @@ function updateLanguageUI(){
   document.querySelector('#filter-status').textContent='';document.querySelector('#form-status').replaceChildren();
 }
 window.addEventListener('render-language-change',updateLanguageUI);
-form.querySelectorAll('[required]').forEach(input=>{
-  input.addEventListener('input',()=>input.setCustomValidity(''));
-  input.addEventListener('invalid',()=>{if(isGeorgian())input.setCustomValidity(input.name==='name'?'გთხოვ, მიუთითე შენი სახელი.':'გთხოვ, პროექტი აღწერე მინიმუმ 10 სიმბოლოთი.');});
-});
 updateLanguageUI();
 updateMotion();scheduleScroll();
 

@@ -1,6 +1,32 @@
 'use strict';
 (() => {
   const ge = {
+    // Callback form
+    "Send us your request and we will get in touch. Prefer to chat? Continue on WhatsApp.":"გამოგვიგზავნეთ მოთხოვნა და დაგიკავშირდებით. საუბარი გირჩევნიათ? მოგვწერეთ WhatsApp-ზე.",
+    "Phone number":"ტელეფონის ნომერი",
+    "Email address":"ელფოსტა",
+    "Your number with country code":"ნომერი ქვეყნის კოდით",
+    "How should we contact you?":"როგორ დაგიკავშირდეთ?",
+    "Call me":"დამირეკეთ",
+    "Email me":"მომწერეთ ელფოსტაზე",
+    "Message me on WhatsApp":"მომწერეთ WhatsApp-ზე",
+    "For a callback, add your phone number. For an email reply, add your email.":"ზარისთვის მიუთითეთ ტელეფონის ნომერი, ელფოსტით პასუხისთვის - ელფოსტის მისამართი.",
+    "I agree that Render Studio may use my details to respond to this request.":"ვეთანხმები, რომ Render Studio-მ ჩემი მონაცემები ამ მოთხოვნაზე პასუხისთვის გამოიყენოს.",
+    "Submit request":"მოთხოვნის გაგზავნა",
+    "or start a conversation":"ან დაიწყეთ საუბარი",
+    "We will contact you about your project. Your details are kept private and are not displayed on the website.":"თქვენი პროექტის შესახებ დაგიკავშირდებით. თქვენი მონაცემები კონფიდენციალურია და ვებსაიტზე არ გამოჩნდება.",
+    "Enable JavaScript to submit a request, or use the Chat on WhatsApp link.":"მოთხოვნის გასაგზავნად ჩართეთ JavaScript ან მოგვწერეთ WhatsApp-ზე.",
+    "Sending request…":"მოთხოვნა იგზავნება…",
+    "Request received. We will contact you using your preferred method.":"მოთხოვნა მიღებულია. თქვენ მიერ არჩეული გზით დაგიკავშირდებით.",
+    "Please add a phone number for a call or WhatsApp reply.":"ზარისთვის ან WhatsApp-ზე პასუხისთვის მიუთითეთ ტელეფონის ნომერი.",
+    "Please enter a valid phone number, including your country code.":"მიუთითეთ სწორი ტელეფონის ნომერი ქვეყნის კოდით.",
+    "Please add an email address for our reply.":"პასუხისთვის მიუთითეთ ელფოსტა.",
+    "Please enter a valid email address.":"მიუთითეთ სწორი ელფოსტის მისამართი.",
+    "Please allow us to contact you about this request.":"მოგვეცით თანხმობა, რომ ამ მოთხოვნის შესახებ დაგიკავშირდეთ.",
+    "You have sent several requests. Please try again in 10 minutes or chat on WhatsApp.":"რამდენიმე მოთხოვნა უკვე გაგზავნეთ. სცადეთ 10 წუთში ან მოგვწერეთ WhatsApp-ზე.",
+    "Please check your details and add at least 10 characters about your project.":"შეამოწმეთ მონაცემები და პროექტი მინიმუმ 10 სიმბოლოთი აღწერეთ.",
+    "We could not save your request. Please try again or chat on WhatsApp.":"მოთხოვნის შენახვა ვერ მოხერხდა. სცადეთ ხელახლა ან მოგვწერეთ WhatsApp-ზე.",
+
     // BEGIN PORTFOLIO 20261014
     "Commercial & product":"პროდუქტი და რეკლამა",
     "Motion & explainers":"ანიმაცია და ახსნითი ვიდეოები",
