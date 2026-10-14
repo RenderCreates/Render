@@ -2,7 +2,7 @@
 (() => {
   const form=document.querySelector('#project-form'),status=document.querySelector('#form-status'),submit=document.querySelector('#callback-submit'),wa=document.querySelector('#whatsapp-brief');
   const t=s=>window.RenderI18n?.t(s)||s;
-  const endpoint=location.hostname==='vornato.github.io'?'https://render-studio-creates.netlify.app/api/callback':'/api/callback';
+  const endpoint=location.hostname==='vornato.github.io'?'https://rendercreates.com/api/callback':'/api/callback';
   let pendingKey='',pendingPayload='',busy=false;
   const contactRequirements=required=>{
     form.elements.phone.required=required&&form.elements.contactMethod.value!=='email';

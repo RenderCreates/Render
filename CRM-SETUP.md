@@ -1,7 +1,7 @@
 # Render callback form and private CRM
 
-Public website: https://render-studio-creates.netlify.app/
-Private CRM: https://render-studio-creates.netlify.app/admin/
+Public website: https://rendercreates.com/
+Private CRM: https://rendercreates.com/admin/
 The existing GitHub Pages callback form also submits to this backend.
 
 The customer form collects name, brand, phone/email, preferred contact method, selected services, and project brief. A contact consent checkbox is required for submitting a callback request. Continuing to WhatsApp prepares the brief for the visitor to review and send. It does not submit a CRM request.
@@ -32,3 +32,11 @@ Netlify is connected to `Vornato/Render` with continuous deployment from `main`,
 The project uses the existing Netlify Free plan, including its usage limits. No paid plan or add-on is required for this implementation.
 
 Existing website contact links and all portfolio films are preserved. No automatic customer messages or email notifications are configured.
+
+## Custom domain
+
+`rendercreates.com` is the primary Netlify domain; `www.rendercreates.com` redirects to it. The domain stays registered at Namecheap, using its existing BasicDNS nameservers. HTTPS uses Netlify's free, automatically renewed Let's Encrypt certificate.
+
+Website DNS records: A `@` to `75.2.60.5` and CNAME `www` to `render-studio-creates.netlify.app`. Existing email forwarding MX and SPF records are preserved. No paid hosting, SSL certificate, or DNS upgrade is required.
+
+The GitHub Pages callback endpoint and admin redirect use the custom domain directly. Netlify-hosted pages use same-origin API requests, and admin sessions remain host-only.
