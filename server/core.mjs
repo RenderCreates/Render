@@ -14,7 +14,11 @@ export const query = (sql,values=[]) => db().sql.unsafe(sql,values);
 export function json(value,status=200,extra={}) {
   return Response.json(value,{status,headers:{'Cache-Control':'no-store, private','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex','Vary':'Origin',...extra}});
 }
-export function failure(error,extra={}){return json({error:error instanceof ApiError?error.code:'unavailable'},error instanceof ApiError?error.status:503,extra);}
+export function failure(error,extra={}){
+  // Log diagnostic identifiers only: never request details, passwords, or query values.
+  if(!(error instanceof ApiError))console.error('Render backend unavailable',{name:error?.name||'Error',code:error?.code||'unknown'});
+  return json({error:error instanceof ApiError?error.code:'unavailable'},error instanceof ApiError?error.status:503,extra);
+}
 export async function body(req){
   if(!req.headers.get('content-type')?.startsWith('application/json')) throw new ApiError(415,'invalid_format');
   const reader=req.body?.getReader(); if(!reader)throw new ApiError(400,'invalid_request');
