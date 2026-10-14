@@ -92,3 +92,9 @@ The hero artwork follows fine mouse pointers with up to 8 degrees of pitch and 1
 
 RESTORED SCROLL MOTION
 The original nine-square Render motif is restored at the left edge. Its pieces rotate, separate and reassemble as page progress changes, including reverse scrolling. Native transforms share the existing requestAnimationFrame scroll update. The hero layers and framed portfolio/studio images have restrained parallax. Smaller movements and a narrow motif preserve mobile space. The motion pause control and reduced-motion preference disable every added effect; the motif hides during the intro and project dialogs.
+
+
+PORTFOLIO UPDATE - OCTOBER 14, 2026
+Five selected films are hosted in assets/portfolio/: Borjomi, Deutsche Bank, Football.com, NineTwoFive and MelloFlow. Their local WebP posters load on the gallery; video bytes are requested only after opening a film. Original landscape, 3:4 and vertical framing is preserved. Browser-compatible H.264/AAC exports use faststart metadata and bounded video bitrate. MelloFlow has a 720x1280 web export; its original 1080x1920 proportions are unchanged. NineTwoFive is a silent product loop.
+The portfolio filters are All work, Commercial & product, Motion & explainers, Social & UGC, Events & music and Studio concepts. All work contains ten projects: seven films and three studio concepts. Existing YouTube films still use the privacy-enhanced YouTube player; the five new films use native inline video controls with fullscreen support and a direct-file fallback. Close or switch a film to stop playback and release the previous source. Native video arrow keys continue to seek, and film navigation stays within the active category. Labels, descriptions, image alternatives, tags and playback messages are translated in English and Georgian.
+The supplied Drive folder is the source of the new films. No unreviewed Archi files were added.

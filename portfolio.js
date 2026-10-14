@@ -39,6 +39,8 @@
   function stopPlayback() {
     generation++;
     clearTimeout(loadTimer);
+    const video = frameHost.querySelector('video');
+    if (video) { video.pause(); video.removeAttribute('src'); video.load(); }
     if (player) { try { player.destroy(); } catch {} }
     player = null;
     frameHost.replaceChildren();
@@ -59,7 +61,10 @@
       const span = document.createElement('span'); span.textContent = translate(text); return span;
     }));
     const watch = dialog.querySelector('#video-watch-link');
-    watch.href = 'https://www.youtube.com/watch?v=' + active.id;
+    watch.href = active.src || 'https://www.youtube.com/watch?v=' + active.id;
+    const watchLabel = watch.querySelector('[data-player-label]');
+    watchLabel.dataset.playerLabel = active.src ? 'Open video' : 'Watch on YouTube';
+    watchLabel.textContent = translate(watchLabel.dataset.playerLabel);
     const index = queue.indexOf(active);
     dialog.querySelector('#video-position').textContent = (index + 1) + ' / ' + queue.length;
     previous.disabled = index <= 0;
@@ -74,6 +79,8 @@
     });
     const iframe = frameHost.querySelector('iframe');
     if (iframe) iframe.title = translate('Video player') + ': ' + translate(active.title);
+    const video = frameHost.querySelector('video');
+    if (video) video.setAttribute('aria-label', translate('Video player') + ': ' + translate(active.title));
     setStatus(statusKey);
   }
   function buildQueue() {
@@ -81,7 +88,7 @@
       const button = document.createElement('button');
       button.type = 'button'; button.className = 'video-queue-item'; button.dataset.queueFilm = film.key;
       const image = document.createElement('img');
-      image.src = 'https://img.youtube.com/vi/' + film.id + '/hqdefault.jpg';
+      image.src = film.poster || 'https://img.youtube.com/vi/' + film.id + '/hqdefault.jpg';
       image.alt = ''; image.width = 32; image.height = 56; image.loading = 'lazy';
       const label = document.createElement('span');
       button.append(image, label);
@@ -94,8 +101,31 @@
     const token = generation;
     active = film;
     dialog.dataset.format = film.format;
+    frameHost.style.setProperty('--film-aspect', `${film.width || 1080} / ${film.height || 1920}`);
+    frameHost.style.setProperty('--film-ratio', String((film.width || 1080) / (film.height || 1920)));
     setStatus('Loading video…');
     updateDetails();
+    if (film.src) {
+      const video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      video.poster = film.poster;
+      video.loop = Boolean(film.loop);
+      video.setAttribute('aria-label', translate('Video player') + ': ' + translate(film.title));
+      const current = () => token === generation && dialog.open;
+      const loaded = () => { if (current()) { clearTimeout(loadTimer); setStatus(''); } };
+      video.addEventListener('loadeddata', loaded);
+      video.addEventListener('playing', loaded);
+      video.addEventListener('ended', () => { if (current()) setStatus('Film finished. Explore another project.'); });
+      video.addEventListener('error', () => { if (current()) { clearTimeout(loadTimer); setStatus('Playback unavailable here. Open the video directly.'); } });
+      loadTimer = window.setTimeout(() => { if (current()) setStatus('Taking longer to load? Open the video directly.'); }, 12000);
+      video.src = film.src;
+      frameHost.append(video);
+      const playback = video.play();
+      playback?.catch(() => { if (current() && !video.error) { clearTimeout(loadTimer); setStatus('Press play to start the film.'); } });
+      return;
+    }
     const iframe = document.createElement('iframe');
     iframe.id = 'portfolio-youtube-frame';
     iframe.title = translate('Video player') + ': ' + translate(film.title);
@@ -137,7 +167,10 @@
     if (!film) return;
     event.preventDefault();
     trigger = link;
-    queue = films.filter(item => !document.querySelector('[data-film="' + item.key + '"]').closest('.project').hidden);
+    queue = films.filter(item => {
+      const card = document.querySelector('[data-film="' + item.key + '"]');
+      return card && !card.closest('.project').hidden;
+    });
     if (!queue.includes(film)) queue = films;
     buildQueue();
     dialog.showModal();
@@ -161,11 +194,14 @@
   });
   dialog.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.target.closest('video,input,textarea,select')) return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault(); move(event.key === 'ArrowLeft' ? -1 : 1);
     }
   });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) player?.pauseVideo?.(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { player?.pauseVideo?.(); frameHost.querySelector('video')?.pause(); }
+  });
   window.addEventListener('render-language-change', updateDetails);
   updateDetails();
 })();

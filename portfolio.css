@@ -8,6 +8,9 @@
 .film-card .film-ambience { filter: blur(24px) brightness(.35) saturate(.6); scale: 1.18; }
 .film-portrait { position: absolute; inset-block: 16px; left: 50%; translate: -50% 0; aspect-ratio: 9 / 16; overflow: hidden; border: 1px solid #ffffff1a; border-radius: 13px; box-shadow: 0 16px 55px #0007; }
 .film-portrait > img { width: 100%; height: 100%; object-fit: cover; }
+.film-landscape { position: absolute; inset: 0; }
+.film-landscape > img { width: 100%; height: 100%; object-fit: contain; }
+.film-product { aspect-ratio: 3 / 4; }
 .film-card .project-media::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, #03050b77, transparent 40%); }
 .film-card .media-topline, .film-card .project-view { z-index: 2; }
 .film-play-icon { position: absolute; z-index: 2; top: 50%; left: 50%; translate: -50% -50%; width: 62px; height: 62px; border: 1px solid #ffffff70; border-radius: 50%; display: grid; place-items: center; color: white; background: #10131b80; backdrop-filter: blur(12px); transition: scale .3s, background .3s; }
@@ -27,8 +30,9 @@
 .video-close:hover { border-color: #ffffff66; background: #ffffff0b; }
 .video-dialog-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; }
 .video-stage { display: flex; align-items: center; justify-content: center; min-height: 356px; padding: 20px; background: radial-gradient(ellipse at 50% 25%, #2a2d3a66, #03050b 75%); }
-.video-frame { width: min(100%, calc(min(68svh, 660px) * 9 / 16)); min-width: 200px; aspect-ratio: 9 / 16; background: #000; box-shadow: 0 15px 50px #0006; }
+.video-frame { width: min(100%, calc(min(68svh, 660px) * var(--film-ratio, .5625))); min-width: 200px; aspect-ratio: var(--film-aspect, 9 / 16); background: #000; box-shadow: 0 15px 50px #0006; }
 .video-frame > iframe { display: block; width: 100%; height: 100%; min-width: 200px; min-height: 200px; border: 0; }
+.video-frame > video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
 .video-dialog[data-format="landscape"] .video-frame { width: 100%; aspect-ratio: 16 / 9; }
 .video-details { display: flex; flex-direction: column; gap: 23px; padding: 26px 24px; border-left: 1px solid #ffffff15; }
 #video-description { margin: 0; font-size: 12px; line-height: 1.9; color: #b6bacb; }
