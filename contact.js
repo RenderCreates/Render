@@ -2,6 +2,9 @@
 (() => {
   const form=document.querySelector('#project-form'),status=document.querySelector('#form-status'),submit=document.querySelector('#callback-submit'),wa=document.querySelector('#whatsapp-brief');
   const t=s=>window.RenderI18n?.t(s)||s;
+  const hasWhatsApp=Boolean(whatsappURL());
+  wa.hidden=!hasWhatsApp;wa.disabled=!hasWhatsApp;wa.style.display=hasWhatsApp?'':'none';
+  const divider=form.querySelector('.form-divider');divider.hidden=!hasWhatsApp;divider.style.display=hasWhatsApp?'':'none';
   const endpoint=location.hostname==='vornato.github.io'?'https://rendercreates.com/api/callback':'/api/callback';
   let pendingKey='',pendingPayload='',busy=false;
   const contactRequirements=required=>{
@@ -23,9 +26,10 @@
       if(!response.ok){const message={phone_required:'Please add a phone number for a call or WhatsApp reply.',invalid_phone:'Please enter a valid phone number, including your country code.',email_required:'Please add an email address for our reply.',invalid_email:'Please enter a valid email address.',consent_required:'Please allow us to contact you about this request.',rate_limited:'You have sent several requests. Please try again in 10 minutes or chat on WhatsApp.',invalid_details:'Please check your details and add at least 10 characters about your project.'}[result.error];throw new Error(message||'We could not save your request. Please try again or chat on WhatsApp.');}
       pendingKey='';pendingPayload='';form.reset();contactRequirements(false);status.classList.add('is-success');status.textContent=t('Request received. We will contact you using your preferred method.');
     }catch(error){status.textContent=t(error.message.includes('Please')||error.message.startsWith('We could')||error.message.startsWith('You have')?error.message:'We could not save your request. Please try again or chat on WhatsApp.');}
-    finally{busy=false;submit.disabled=false;wa.disabled=false;submit.querySelector('[data-submit-label]').textContent=t('Submit request');}
+    finally{busy=false;submit.disabled=false;wa.disabled=!hasWhatsApp;submit.querySelector('[data-submit-label]').textContent=t('Submit request');}
   });
   wa.addEventListener('click',()=>{
+    if(!hasWhatsApp)return;
     contactRequirements(false);if(!form.reportValidity())return;
     const data=new FormData(form),name=String(data.get('name')||'').trim(),brief=String(data.get('brief')||'').trim(),company=String(data.get('company')||'').trim(),services=data.getAll('service'),phone=String(data.get('phone')||'').trim(),email=String(data.get('email')||'').trim();
     const ka=document.documentElement.lang==='ka';
@@ -34,3 +38,4 @@
   });
   window.addEventListener('render-language-change',()=>{if(!busy)submit.querySelector('[data-submit-label]').textContent=t('Submit request');});
 })();
+

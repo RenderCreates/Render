@@ -1,5 +1,5 @@
 'use strict';
-window.RENDER_CONFIG = {whatsappNumber:'995595551405'};
+window.RENDER_CONFIG = {whatsappNumber:''};
 const t=text=>window.RenderI18n?.t(text)??text;
 const isGeorgian=()=>window.RenderI18n?.language==='ka';
 const menuButton=document.querySelector('.menu-toggle');
@@ -15,8 +15,8 @@ window.addEventListener('resize',()=>{if(window.innerWidth>1000)closeMenu();});
 // Keep the number in one place. All WhatsApp URLs are generated from this setting.
 const config=window.RENDER_CONFIG;
 const greeting="Hi Render Studio! I'd like to discuss a project.";
-function whatsappURL(text){return `https://wa.me/${config.whatsappNumber}${text?'?text='+encodeURIComponent(text):''}`;}
-function updateWhatsAppLinks(){document.querySelectorAll('.whatsapp-link').forEach(link=>{link.href=whatsappURL(t(greeting));});}
+function whatsappURL(text){const number=String(config.whatsappNumber||'').trim();return /^\d{7,15}$/.test(number)?`https://wa.me/${number}${text?'?text='+encodeURIComponent(text):''}`:'';}
+function updateWhatsAppLinks(){document.querySelectorAll('.whatsapp-link').forEach(link=>{const url=whatsappURL(t(greeting));link.hidden=!url;link.style.display=url?'':'none';link.setAttribute('aria-disabled',String(!url));if(url){link.href=url;link.removeAttribute('tabindex');}else{link.removeAttribute('href');link.tabIndex=-1;}});}
 updateWhatsAppLinks();
 
 document.querySelector('#year').textContent=new Date().getFullYear();
@@ -240,3 +240,4 @@ document.querySelectorAll('.hero-art-wrap').forEach(surface=>{
   reducedMotion.addEventListener('change',reset);
   finePointer.addEventListener('change',reset);
 });
+
