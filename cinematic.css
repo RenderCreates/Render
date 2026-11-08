@@ -195,6 +195,9 @@ h3 { font-weight: 650; letter-spacing: -.025em; }
 .services .text-link { border-color: var(--line); }
 .project-media { border-radius: 22px; border: 1px solid #ffffff1f; }
 .project-media > img { filter: brightness(.85) saturate(.72); }
+/* Keep the people in the street photograph visible in shallow image frames. */
+.project-media > img[src$="photography/street.webp"],
+.project-dialog > img[src$="photography/street.webp"] { object-position: center 85%; }
 .video-media { background: #0e1119; }
 .project-media > video { object-fit: cover; }
 .project-view { border: 1px solid #ffffff40; border-radius: 50px; backdrop-filter: blur(14px); background: #10131be0; color: #f5f5f7; min-height: 44px; font-size: 10px; }
