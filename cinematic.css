@@ -75,6 +75,7 @@ h1, h2 { font-weight: 650; }
 .site-header { border-bottom: 1px solid #ffffff0c; gap: 28px; }
 .brand, html[lang="ka"] .brand { font-family: "Manrope", sans-serif; gap: 11px; }
 .brand img { width: 34px; height: 34px; border-radius: 7px; mix-blend-mode: normal; }
+.site-header .brand img { border-radius: 0; }
 .brand > span { font-size: 16px; font-weight: 800; letter-spacing: 3.3px; }
 .brand small { font-size: 8px; letter-spacing: 5.9px; margin-top: 6px; }
 .site-header > nav { gap: 26px; }
